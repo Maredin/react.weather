@@ -1,0 +1,32 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.header__logo {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.header__logo-title {
+    color: #4793FF;
+    font-size: 25px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.header__city {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.header__city-select {
+    border-radius: 10px;
+    background: rgba(71, 147, 255, 0.20);
+    min-width: 150px;
+    padding: 9px;
+}
