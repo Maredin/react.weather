@@ -2,7 +2,7 @@ import React from 'react';
 import './header.css';
 
 
-function Header({ adress, setAdress, gpsCity }) {
+function Header({ adress, setAdress, gpsCity, setGpsCity }) {
 
     function selectCity(e) {
         let newAdress = e.target.value;
@@ -10,9 +10,27 @@ function Header({ adress, setAdress, gpsCity }) {
     }
 
     function Option() {
+        if (!gpsCity) return
         return (
             gpsCity.map((item) => <option value={item.title} className="header__city-options" key={item.key}>{item.title}</option>)
         )
+    }
+
+    function edit() {
+
+        let newGPS = {
+            key: Math.random(),
+            title: prompt('Введите населенный пункт'),
+            latitude: +prompt('GPS широта:'),
+            longitude: +prompt('GPS долгота:')
+        }
+
+        let res = [...gpsCity, newGPS];
+        if (newGPS.title && newGPS.latitude && newGPS.longitude) {
+            localStorage.date = JSON.stringify(res);
+            setGpsCity(res);
+        }
+
     }
 
     return (
@@ -58,6 +76,7 @@ function Header({ adress, setAdress, gpsCity }) {
                 <select name="city" id="city" className="header__city-select" onChange={selectCity} value={adress}>
                     <Option />
                 </select>
+                <button className='header__city-btn' onClick={edit}>edit</button>
             </div>
 
         </section>

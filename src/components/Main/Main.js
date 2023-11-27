@@ -7,38 +7,19 @@ import rain from './img/rain.png';
 import snow from './img/snow.png';
 import thunder from './img/thunder.png';
 
-function Main({ adress }) {
+function Main({ adress, gpsCity }) {
     const [data, setData] = useState();
-    const [gpsCity, setGpsCity] = useState({
-        title: 'Глумилинская',
-        latitude: 54.7431,
-        longitude: 55.9678
-    });
+    const [gpsCityTitle, setGpsCityTitle] = useState(gpsCity[0]);
 
     // Вшитые координаты
-    const gps = [{
-        title: 'Глумилинская',
-        latitude: 54.7431,
-        longitude: 55.9678
-    },
-    {
-        title: 'Мулино',
-        latitude: 55.757379,
-        longitude: 55.9678
-    },
-    {
-        title: 'Булгаково',
-        latitude: 54.479125,
-        longitude: 55.880410
-    },
-    ];
+    const gps = gpsCity;
 
     // Смена координат
     useEffect(() => {
         for (let i = 0; i < gps.length; i++) {
             if (gps[i].title === adress) {
                 let newArr = gps[i];
-                setGpsCity(newArr)
+                setGpsCityTitle(newArr)
             }
         }
     }, [adress])
@@ -47,13 +28,13 @@ function Main({ adress }) {
 
     // Фетч запрос к API
     useEffect(() => {
-        const ufa = `https://api.open-meteo.com/v1/forecast?latitude=${gpsCity.latitude}&longitude=${gpsCity.longitude}&current=temperature_2m,weather_code,wind_speed_10m,wind_direction_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,wind_speed_10m_max,wind_direction_10m_dominant&wind_speed_unit=ms&timezone=auto`;
+        const url = `https://api.open-meteo.com/v1/forecast?latitude=${gpsCityTitle.latitude}&longitude=${gpsCityTitle.longitude}&current=temperature_2m,weather_code,wind_speed_10m,wind_direction_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,wind_speed_10m_max,wind_direction_10m_dominant&wind_speed_unit=ms&timezone=auto`;
 
 
-        fetch(ufa)
+        fetch(url)
             .then(response => response.json())
             .then(data => setData(data))
-    }, [gpsCity.latitude, gpsCity.longitude]);
+    }, [gpsCityTitle.latitude, gpsCityTitle.longitude]);
 
     // Направление ветра
     const windsDeg = data ? data.current.wind_direction_10m : '';
@@ -170,7 +151,7 @@ function Main({ adress }) {
                     <p className='main__today-time'>t° Ночь: <span className='black'>{data ? (data.daily.temperature_2m_min[i])
                         : "--"}°</span></p>
 
-                    <p className='main__today-time main__week-wind'>Ветер: <br /><span className='black'> {weekWind(i)} - {data ? data.daily.wind_speed_10m_max[i]
+                    <p className='main__today-time main__week-wind'>Ветер: <br /><span className='black'> {weekWind(i)}:  {data ? data.daily.wind_speed_10m_max[i]
                         : "--"} м/с</span></p>
                 </div>
             );
@@ -189,7 +170,7 @@ function Main({ adress }) {
                 <p className='main__today-data'>Сегодня</p>
                 <p className='main__today-time'>Время: <span className='black'>{data ? (data.current.time).slice(11, 16)
                     : "--"}</span></p>
-                <p className='main__today-time'>Ветер:<br /><span className='black'> {winddirection} - {data ? data.current.wind_speed_10m
+                <p className='main__today-time'>Ветер:<br /><span className='black'> {winddirection}:   {data ? data.current.wind_speed_10m
                     : "--"} м/с</span></p>
             </div>
 

@@ -5,29 +5,33 @@ import React, { useState } from 'react';
 
 function App() {
     const [adress, setAdress] = useState('Глумилинская');
-    const [gpsCity, setGpsCity] = useState([{
-        key: Math.random(),
-        title: 'Глумилинская',
-        latitude: 54.7431,
-        longitude: 55.9678
-    },
-    {
-        key: Math.random(),
-        title: 'Мулино',
-        latitude: 55.757379,
-        longitude: 55.9678
-    },
-    {
-        key: Math.random(),
-        title: 'Булгаково',
-        latitude: 54.479125,
-        longitude: 55.880410
-    },
-    ]);
+
+    /*     const [gpsCity, setGpsCity] = useState([
+            {
+                key: Math.random(),
+                title: 'Глумилинская',
+                latitude: 54.773876130498884,
+                longitude: 56.03922128677369
+            },
+            {
+                key: Math.random(),
+                title: 'Мулино',
+                latitude: 55.757560879505874,
+                longitude: 55.4439264535904
+            },
+            {
+                key: Math.random(),
+                title: 'Булгаково',
+                latitude: 54.47938879436716,
+                longitude: 55.88260173797608
+            },
+        ]); */
+
+    const [gpsCity, setGpsCity] = useState(JSON.parse(localStorage.getItem('date')) || '');
     return (
         <>
-            <Header adress={adress} setAdress={setAdress} gpsCity={gpsCity} />
-            <Main adress={adress} gpsCity={gpsCity} setGpsCity={setGpsCity} />
+            <Header adress={adress} setAdress={setAdress} gpsCity={gpsCity} setGpsCity={setGpsCity} />
+            {gpsCity ? <Main adress={adress} gpsCity={gpsCity} setGpsCity={setGpsCity} /> : ''}
         </>
     )
 }
