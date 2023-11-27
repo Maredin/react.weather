@@ -15,6 +15,7 @@ function Main({ adress }) {
         longitude: 55.9678
     });
 
+    // Вшитые координаты
     const gps = [{
         title: 'Глумилинская',
         latitude: 54.7431,
@@ -32,6 +33,7 @@ function Main({ adress }) {
     },
     ];
 
+    // Смена координат
     useEffect(() => {
         for (let i = 0; i < gps.length; i++) {
             if (gps[i].title === adress) {
@@ -43,9 +45,8 @@ function Main({ adress }) {
 
 
 
-
+    // Фетч запрос к API
     useEffect(() => {
-        /*         const ufa = `https://api.open-meteo.com/v1/forecast?latitude=${gpsCity.latitude}&longitude=${gpsCity.longitude}8&current=temperature_2m,weather_code,windspeed_10m,winddirection_10m,windgusts_10m&windspeed_unit=ms&timezone=auto&forecast_days=1`; */
         const ufa = `https://api.open-meteo.com/v1/forecast?latitude=${gpsCity.latitude}&longitude=${gpsCity.longitude}&current=temperature_2m,weather_code,wind_speed_10m,wind_direction_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,wind_speed_10m_max,wind_direction_10m_dominant&wind_speed_unit=ms&timezone=auto`;
 
 
@@ -54,7 +55,7 @@ function Main({ adress }) {
             .then(data => setData(data))
     }, [gpsCity.latitude, gpsCity.longitude]);
 
-
+    // Направление ветра
     const windsDeg = data ? data.current.wind_direction_10m : '';
 
     let winddirection = '';
@@ -81,6 +82,7 @@ function Main({ adress }) {
         winddirection = 'error'
     }
 
+    // Код оасдков погоды
     let imgWeather = '';
     const imgWeatherData = data ? data.current.weather_code : '';
     if (imgWeatherData >= 0 && imgWeatherData <= 3) {
@@ -95,7 +97,7 @@ function Main({ adress }) {
         imgWeather = thunder;
     }
 
-    console.log(data);
+
     function Week() {
 
         const weekData = data ? data.daily.time : '';
@@ -106,7 +108,6 @@ function Main({ adress }) {
         const weekDirection = data ? data.daily.wind_direction_10m_dominant : '';
         const weekWindSpeed = data ? data.daily.wind_speed_10m_max : '';
 
-        console.log(weekData);
         if (weekData && imgWeatherData && tempMax && tempMin && weekDirection && weekWindSpeed) {
 
             // Функция изображения погоды
@@ -132,7 +133,7 @@ function Main({ adress }) {
             function weekWind(i) {
                 let winddirection = '';
                 const windsDeg = data ? data.daily.wind_direction_10m_dominant : '';
-                console.log(windsDeg);
+
                 if (windsDeg[i] >= 0 && windsDeg < 45) {
                     winddirection = 'Северный'
                 } else if (windsDeg[i] === 45) {
@@ -163,10 +164,10 @@ function Main({ adress }) {
 
                     <img src={imgArr(i)} alt="imgWeather" className='main__today-img' />
 
-                    <p className='main__today-time'>t° max: <span className='black'>{data ? (data.daily.temperature_2m_max[i])
+                    <p className='main__today-time'>t° День: <span className='black'>{data ? (data.daily.temperature_2m_max[i])
                         : "--"}°</span></p>
 
-                    <p className='main__today-time'>t° min: <span className='black'>{data ? (data.daily.temperature_2m_min[i])
+                    <p className='main__today-time'>t° Ночь: <span className='black'>{data ? (data.daily.temperature_2m_min[i])
                         : "--"}°</span></p>
 
                     <p className='main__today-time main__week-wind'>Ветер: <br /><span className='black'> {weekWind(i)} - {data ? data.daily.wind_speed_10m_max[i]
