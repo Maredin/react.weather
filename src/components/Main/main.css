@@ -29,7 +29,7 @@
 
 .main__today-temp {
     color: #4793FF;
-    font-size: 96px;
+    font-size: 75px;
     font-weight: 500;
     margin-top: 15px;
 }
@@ -71,7 +71,12 @@
 .main__today-city {
     margin-top: 14px;
     border-bottom: 1px solid;
+    display: flex;
+    justify-content: space-between;
+    font-size: 23px;
 }
+
+
 
 .black {
     color: #000;
@@ -92,4 +97,20 @@
 
 .main__week-wind {
     line-height: 35px;
+}
+
+.blue-title {
+    color: #4793FF;
+}
+
+.wind-green {
+    color: green;
+}
+
+.wind-orange {
+    color: orange;
+}
+
+.wind-red {
+    color: red;
 }

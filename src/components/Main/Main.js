@@ -63,7 +63,7 @@ function Main({ adress, gpsCity }) {
         winddirection = 'error'
     }
 
-    // Код оасдков погоды
+    // Код осадков погоды
     let imgWeather = '';
     const imgWeatherData = data ? data.current.weather_code : '';
     if (imgWeatherData >= 0 && imgWeatherData <= 3) {
@@ -76,6 +76,17 @@ function Main({ adress, gpsCity }) {
         imgWeather = snow;
     } else if ((imgWeatherData >= 80 && imgWeatherData <= 82) || imgWeatherData >= 95) {
         imgWeather = thunder;
+    }
+
+    // Цвет скорости ветра
+    function colourWind(item) {
+        if (item < 3) {
+            return 'wind-green'
+        } else if (item >= 3 && item <= 5) {
+            return 'wind-orange'
+        } else {
+            return 'wind-red'
+        }
     }
 
 
@@ -92,7 +103,7 @@ function Main({ adress, gpsCity }) {
         if (weekData && imgWeatherData && tempMax && tempMin && weekDirection && weekWindSpeed) {
 
             // Функция изображения погоды
-            let newArrWeek = weekData.slice(1, weekData.length);
+            let newArrWeek = weekData;
             function imgArr(i) {
                 let imgWeather = '';
                 if (imgWeatherData[i] >= 0 && imgWeatherData[i] <= 3) {
@@ -138,10 +149,24 @@ function Main({ adress, gpsCity }) {
                 }
                 return winddirection;
             }
+            function today(item) {
+                const day = new Date(item).getDay();
+                const week = [
+                    'Воскресенье',
+                    'Понедельник',
+                    'Вторник',
+                    'Среда',
+                    'Четверг',
+                    'Пятница',
+                    'Суббота',
+                ];
+                const dayWeek = week[day]
+                return dayWeek
+            }
 
             const weekItems = newArrWeek.map((item, i) =>
                 <div className="main__today main__week" key={Math.random()}>
-                    <p className='main__today-city'>{item.replace(/(\d{4})-(\d\d)-(\d\d)/, "$3-$2-$1")}</p>
+                    <p className='main__today-city'><span>{today(item)}</span><span>{item.replace(/(\d{4})-(\d\d)-(\d\d)/, "$3-$2-$1")}</span></p>
 
                     <img src={imgArr(i)} alt="imgWeather" className='main__today-img' />
 
@@ -151,8 +176,10 @@ function Main({ adress, gpsCity }) {
                     <p className='main__today-time'>t° Ночь: <span className='black'>{data ? (data.daily.temperature_2m_min[i])
                         : "--"}°</span></p>
 
-                    <p className='main__today-time main__week-wind'>Ветер: <br /><span className='black'> {weekWind(i)}:  {data ? data.daily.wind_speed_10m_max[i]
-                        : "--"} м/с</span></p>
+                    <p className='main__today-time main__week-wind'>Ветер: <br />
+                        <span className='black'> {weekWind(i)}: <span className={colourWind(data ? data.daily.wind_speed_10m_max[i] : 0)}> {data ? data.daily.wind_speed_10m_max[i]
+                            : "--"} м/с</span></span>
+                    </p>
                 </div>
             );
             return weekItems;
@@ -163,15 +190,17 @@ function Main({ adress, gpsCity }) {
     return (
         <section className="main">
             <div className="main__today">
-                <p className='main__today-city'>{adress}</p>
+                <p className='main__today-city blue-title'>{adress}</p>
                 <img src={imgWeather} alt="imgWeather" className='main__today-img' />
                 <p className="main__today-temp">{data ? data.current.temperature_2m
                     : "--"}°</p>
-                <p className='main__today-data'>Сегодня</p>
+                <p className='main__today-data'>Сейчас</p>
                 <p className='main__today-time'>Время: <span className='black'>{data ? (data.current.time).slice(11, 16)
                     : "--"}</span></p>
-                <p className='main__today-time'>Ветер:<br /><span className='black'> {winddirection}:   {data ? data.current.wind_speed_10m
-                    : "--"} м/с</span></p>
+                <p className='main__today-time'>Ветер:<br />
+                    <span className='black'> {winddirection}: <span className={colourWind(data ? data.current.wind_speed_10m : 0)}> {data ? data.current.wind_speed_10m
+                        : "--"} м/с</span></span>
+                </p>
             </div>
 
             <div className="wrapper__week">
