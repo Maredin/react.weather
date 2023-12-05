@@ -4,10 +4,9 @@
     right: 0;
     top: 0;
     bottom: 0;
-    background-color: rgba(17, 35, 192, 0.39);
+    background-color: #4794ffb6;
     z-index: 1;
 }
-
 
 .edit {
     width: 320px;
@@ -36,11 +35,25 @@
     cursor: pointer;
 }
 
-.popup__exit {
+.edit__exit {
     display: inline-block;
     margin-bottom: 20px;
     align-self: end;
     cursor: pointer;
+}
+
+.edit__exit img {
+    width: 55px;
+}
+.edit__exit img:hover {
+    animation: wiggle 2.5s linear infinite;
+    transform-origin: top;
+}
+@keyframes wiggle {
+    0% { transform: rotate(0deg); }
+   25% { transform: rotate(15deg); }
+   75% { transform: rotate(-15deg); }
+  100% { transform: rotate(0deg); }
 }
 
 .edit__form {
@@ -53,7 +66,7 @@
 }
 
 .edit__form-title {
-    font-size: 15px;
+    font-size: 18px;
     color: #4793FF;
     border-top: 1px solid #4793FF;
     padding-top: 10px;

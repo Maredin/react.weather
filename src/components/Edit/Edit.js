@@ -1,6 +1,8 @@
 import React from 'react';
 import './edit.css';
 
+import CloseImg from './img/close.png';
+
 function Edit({ adress, setAdress, gpsCity, setGpsCity, setPopup }) {
 
     // Добавить новую локацию
@@ -62,24 +64,27 @@ function Edit({ adress, setAdress, gpsCity, setGpsCity, setPopup }) {
     }
 
     function Items() {
-        const item = gpsCity.map(item =>
-            <div className='edit__item' key={item.key} >
-                <div className="edit__item-title">{item.title}</div>
-                <button className="edit__item-delite" onClick={() => removeLocation(item)}>удалить</button>
-            </div>
-        )
-        return item
+        if(gpsCity) {
+            const item = gpsCity.map(item =>
+                <div className='edit__item' key={item.key} >
+                    <div className="edit__item-title">{item.title}</div>
+                    <button className="edit__item-delite" onClick={() => removeLocation(item)}>удалить</button>
+                </div>
+            )
+            return item
+        }
+        return
     }
     return (
         <div className="popup">
 
             <div className="edit">
-                <div className="popup__exit" onClick={() => closeEdit()}>X</div>
+                <div className="edit__exit" onClick={() => closeEdit()}><img src={CloseImg} alt="close" /></div>
                 <Items />
 
                 <form className="edit__form">
-                    <p className='edit__form-title'>Добавить новые GPS координаты</p>
-                    <input type="text" name="title" id="add__title" placeholder='Название координат' />
+                    <a href='https://www.mapsdirections.info/ru/GPS-координаты-Google-Картах.html' className='edit__form-title' target='blank'>Карта с GPS координатами</a>
+                    <input type="text" name="title" id="add__title" placeholder='Название локации' />
                     <input type="text" name="title" id="add__latitude" placeholder='GPS долгота'
                         onChange={(e) => inputChange(e)} />
                     <input type="text" name="title" id="add__longitude" placeholder='GPS широта'
