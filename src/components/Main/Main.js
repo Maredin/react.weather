@@ -7,7 +7,7 @@ import rain from './img/rain.png';
 import snow from './img/snow.png';
 import thunder from './img/thunder.png';
 
-function Main({ adress, gpsCity }) {
+function Main({ adress, gpsCity, setErrorGps }) {
     const [data, setData] = useState();
     const [gpsCityTitle, setGpsCityTitle] = useState(gpsCity[0]);
 
@@ -32,7 +32,7 @@ function Main({ adress, gpsCity }) {
 
 
         fetch(url)
-            .then(response => response.json())
+            .then(response => response.ok ? response.json() : setErrorGps(true))
             .then(data => setData(data))
     }, [gpsCityTitle.latitude, gpsCityTitle.longitude]);
 
@@ -126,7 +126,7 @@ function Main({ adress, gpsCity }) {
                 let winddirection = '';
                 const windsDeg = data ? data.daily.wind_direction_10m_dominant : '';
 
-                if (windsDeg[i] >= 0 && windsDeg < 45) {
+                if (windsDeg[i] >= 0 && windsDeg[i] < 45) {
                     winddirection = 'Северный'
                 } else if (windsDeg[i] === 45) {
                     winddirection = 'Северо-Восточный'

@@ -1,11 +1,12 @@
 import React from 'react';
 import './header.css';
 
-function Header({ adress, setAdress, gpsCity, setGpsCity, setPopup }) {
+function Header({ adress, setAdress, gpsCity, setPopup, setErrorGps }) {
 
     function selectCity(e) {
         let newAdress = e.target.value;
         setAdress(newAdress);
+        setErrorGps(false);
     }
 
     function Option() {

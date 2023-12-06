@@ -39,10 +39,12 @@ function Edit({ adress, setAdress, gpsCity, setGpsCity, setPopup }) {
 
     // Удалить локацию
     function removeLocation(e) {
-
-        let newArr = gpsCity.filter((item) => item.key !== e.key);
-        localStorage.date = JSON.stringify(newArr);
-        setGpsCity(newArr);
+        let answer = window.confirm('Вы уверены?');
+        if (answer) {
+            let newArr = gpsCity.filter((item) => item.key !== e.key);
+            localStorage.date = JSON.stringify(newArr);
+            setGpsCity(newArr);
+        }
     }
 
     // Валидация инпута
@@ -64,7 +66,7 @@ function Edit({ adress, setAdress, gpsCity, setGpsCity, setPopup }) {
     }
 
     function Items() {
-        if(gpsCity) {
+        if (gpsCity) {
             const item = gpsCity.map(item =>
                 <div className='edit__item' key={item.key} >
                     <div className="edit__item-title">{item.title}</div>

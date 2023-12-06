@@ -8,12 +8,13 @@ function App() {
     const [adress, setAdress] = useState('Глумилинская');
     const [popup, setPopup] = useState(false);
     const [gpsCity, setGpsCity] = useState(JSON.parse(localStorage.getItem('date')) || '');
+    const [errorGps, setErrorGps] = useState(false);
 
     return (
         <>
-            <Header adress={adress} setAdress={setAdress} gpsCity={gpsCity} setGpsCity={setGpsCity} setPopup={setPopup} />
+            <Header adress={adress} setAdress={setAdress} gpsCity={gpsCity} setGpsCity={setGpsCity} setPopup={setPopup} setErrorGps={setErrorGps} />
 
-            {gpsCity && gpsCity.length > 0 ? <Main adress={adress} gpsCity={gpsCity} setGpsCity={setGpsCity} /> : ''}
+            {gpsCity && gpsCity.length && !errorGps > 0 ? <Main adress={adress} gpsCity={gpsCity} setGpsCity={setGpsCity} setErrorGps={setErrorGps} /> : ''}
 
             {popup ? <Edit adress={adress} setAdress={setAdress} gpsCity={gpsCity} setGpsCity={setGpsCity} setPopup={setPopup} /> : ''}
         </>
