@@ -7,7 +7,7 @@ import Edit from '../Edit/Edit';
 function App() {
     const [adress, setAdress] = useState('Глумилинская');
     const [popup, setPopup] = useState(false);
-    const [gpsCity, setGpsCity] = useState(JSON.parse(localStorage.getItem('date')) || '');
+    const [gpsCity, setGpsCity] = useState(JSON.parse(localStorage.getItem('weather')) || '');
     const [errorGps, setErrorGps] = useState(false);
 
     return (

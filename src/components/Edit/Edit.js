@@ -23,7 +23,7 @@ function Edit({ adress, setAdress, gpsCity, setGpsCity, setPopup }) {
                 longitude: longitude
             }
             const newArr = [...gpsCity, newGPS];
-            localStorage.date = JSON.stringify(newArr);
+            localStorage.weather = JSON.stringify(newArr);
             setGpsCity(newArr)
 
             // Очистить инпуты
@@ -42,7 +42,7 @@ function Edit({ adress, setAdress, gpsCity, setGpsCity, setPopup }) {
         let answer = window.confirm('Вы уверены?');
         if (answer) {
             let newArr = gpsCity.filter((item) => item.key !== e.key);
-            localStorage.date = JSON.stringify(newArr);
+            localStorage.weather = JSON.stringify(newArr);
             setGpsCity(newArr);
         }
     }
