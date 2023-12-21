@@ -7,7 +7,20 @@ import Edit from '../Edit/Edit';
 function App() {
     const [adress, setAdress] = useState('Глумилинская');
     const [popup, setPopup] = useState(false);
-    const [gpsCity, setGpsCity] = useState(JSON.parse(localStorage.getItem('weather')) || '');
+    const newGPS = [{
+        key: Math.random(),
+        title: 'Глумилинская',
+        latitude: 54.7738297171387,
+        longitude: 56.03919982910157
+    }]
+
+    if (!JSON.parse(localStorage.getItem('weather'))) {
+        localStorage.weather = JSON.stringify(newGPS)
+    }
+
+
+    const [gpsCity, setGpsCity] = useState(JSON.parse(localStorage.getItem('weather')) || ''
+    );
     const [errorGps, setErrorGps] = useState(false);
 
     return (
